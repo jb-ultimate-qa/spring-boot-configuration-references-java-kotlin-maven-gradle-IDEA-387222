@@ -1,0 +1,4 @@
+# test YAML: TC-05Y NC-02
+yaml:
+  property: test-yaml
+  test-only: test-yaml-only

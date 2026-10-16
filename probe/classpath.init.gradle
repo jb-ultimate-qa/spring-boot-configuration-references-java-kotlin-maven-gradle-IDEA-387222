@@ -1,0 +1,19 @@
+// Writes the runtime classpath of every source set to build/qa/classpath-<source set>.txt.
+// oracle.py passes this script with -I; the projects do not reference it.
+allprojects {
+    plugins.withId('java') {
+        tasks.register('qaClasspaths') {
+            def sourceSets = project.extensions.getByType(SourceSetContainer)
+            def outDir = project.layout.buildDirectory.dir('qa')
+            def classpaths = sourceSets.collectEntries { [(it.name): it.runtimeClasspath] }
+            classpaths.values().each { dependsOn(it) }
+            doLast {
+                classpaths.each { name, files ->
+                    def file = outDir.get().file("classpath-${name}.txt").asFile
+                    file.parentFile.mkdirs()
+                    file.text = files.files*.absolutePath.join(File.pathSeparator)
+                }
+            }
+        }
+    }
+}

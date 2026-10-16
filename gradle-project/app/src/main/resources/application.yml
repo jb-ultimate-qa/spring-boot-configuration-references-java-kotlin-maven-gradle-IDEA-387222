@@ -1,0 +1,4 @@
+# main YAML: TC-03
+yaml:
+  property: main-yaml
+  main-only: main-yaml-only
